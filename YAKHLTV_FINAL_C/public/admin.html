@@ -1,0 +1,15 @@
+
+<!doctype html><html lang="ru"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Admin — YAKhltv</title><link rel="stylesheet" href="style.css"></head><body>
+<header class="header"><div class="brand"><div class="logo">YK</div><div>YAKhltv — Admin</div></div></header>
+<main class="container"><section class="panel"><h2>Admin Panel (API)</h2><div id="adminContent">Loading...</div></section></main>
+<script>
+const token = localStorage.getItem('yak_token');
+if(!token) { alert('Требуется вход'); window.location='index.html'; }
+async function apiFetch(path, method='GET', body){ const headers={'Content-Type':'application/json','Authorization':'Bearer '+token}; const res = await fetch(path,{method,headers,body:body?JSON.stringify(body):undefined}); if(res.status===401){ alert('token invalid'); localStorage.removeItem('yak_token'); window.location='index.html'; } return res.json(); }
+async function loadAdmin(){ const teams = await apiFetch('/api/teams'); const players = await apiFetch('/api/players'); const tours = await apiFetch('/api/tournaments'); const el = document.getElementById('adminContent'); el.innerHTML = '<h3>Teams</h3><div id="admTeams"></div><h3>Players</h3><div id="admPlayers"></div><h3>Tournaments</h3><div id="admTours"></div>'; document.getElementById('admTeams').innerHTML = teams.map(t=>`<div>${t.name} <button onclick="deleteTeam('${t.id}')">Del</button></div>`).join(''); document.getElementById('admPlayers').innerHTML = players.map(p=>`<div>${p.name} (${p.team}) <button onclick="delPlayer('${p.id}')">Del</button></div>`).join(''); document.getElementById('admTours').innerHTML = tours.map(t=>`<div>${t.name} (${t.date}) <button onclick="delTour('${t.id}')">Del</button></div>`).join(''); }
+async function deleteTeam(id){ await apiFetch('/api/teams/'+id,'DELETE'); loadAdmin(); }
+async function delPlayer(id){ await apiFetch('/api/players/'+id,'DELETE'); loadAdmin(); }
+async function delTour(id){ await apiFetch('/api/tournaments/'+id,'DELETE'); loadAdmin(); }
+loadAdmin();
+</script>
+</body></html>

@@ -1,0 +1,11 @@
+
+<!doctype html><html lang="ru"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>YAKhltv</title>
+<link rel="stylesheet" href="style_combined.css"></head><body>
+<header class="header"><div class="brand"><div class="logo">YK</div><div>YAKhltv</div></div><nav class="nav"><a href="index.html">Главная</a><a href="matches.html">Матчи</a><a href="tournaments.html">Турниры</a><a href="players.html">Игроки</a><a href="#" onclick="openAdminModal();return false">Admin</a></nav></header>
+<main class="container">
+  <section class="panel"><h2>Live & Schedule</h2><div id="live"></div><h3>Турниры</h3><div id="tournaments"></div></section>
+  <aside class="sidebar"><div class="panel card"><h3>Топ-игроки</h3><div id="topPlayers"></div></div></aside>
+</main>
+<div id="adminModal" class="admin-modal" style="display:none"><div class="modal-box"><h3>Вход в админ-панель</h3><input id="adminPassword" placeholder="Пароль"><div style="display:flex;gap:8px;justify-content:center;margin-top:10px"><button onclick="apiLogin()" class="btn-primary">Войти</button><button onclick="closeAdminModal()" style="background:#ccc;color:#111;padding:10px;border-radius:6px;border:none">Отмена</button></div><div id="adminError" style="color:#000;margin-top:8px;display:none">Неверный пароль</div></div></div>
+<script src="api-frontend.js"></script>
+</body></html>
